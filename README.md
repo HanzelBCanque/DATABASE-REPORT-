@@ -619,6 +619,7 @@ DENY SELECT ON SCHEMA::Inventory TO ContentEditors;
 
 -- 2. Customer Service Agents (Karen)
 GRANT SELECT ON Customers.Info TO SupportAgents;
+GRANT SELECT ON Products.Catalog TO SupportAgents;
 GRANT SELECT ON Customers.Addresses TO SupportAgents;
 GRANT SELECT ON SCHEMA::Orders TO SupportAgents;
 GRANT UPDATE ON Orders.Orders TO SupportAgents; 
