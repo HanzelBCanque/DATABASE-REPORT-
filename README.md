@@ -538,15 +538,6 @@ INSERT INTO Products.Suppliers (SupplierID, SupplierName, ContactInfo) VALUES
 (50, 'Tech Gadget Inc', 'sales@techgadget.com');
 
 
-INSERT INTO Inventory.Stock (ProductID, WarehouseID, QuantityOnHand, ReorderLevel)
-SELECT ProductID, (ProductID % 2) + 1, (ProductID * 7) % 100, 5 FROM Products.Catalog;
-
-INSERT INTO Orders.Orders (OrderID, CustomerID, OrderDate, Status)
-SELECT 2000 + CustomerID, CustomerID, GETDATE(), 'Shipped' FROM Customers.Info;
-
-INSERT INTO Orders.OrderDetails (OrderDetailID, OrderID, ProductID, Quantity, UnitPrice)
-SELECT CustomerID, 2000 + CustomerID, CustomerID, 1, 1000.00 FROM Customers.Info;
-GO
 
 -- =============================================
 -- 4. SECURITY: USERS AND ROLES
@@ -642,13 +633,13 @@ DENY SELECT ON Products.Catalog TO WarehouseStaff; -- This blocks Prices!
 GRANT SELECT ON Inventory.vw_WarehousePickingList TO WarehouseStaff;
 
 -- 5. Marketing Team (Monica)
-GRANT SELECT, INSERT, UPDATE, DELETE ON Marketing.Campaigns TO Marketing_Monica;
-GRANT SELECT (CustomerID, Name, Email) ON Customers.Info TO Marketing_Monica; -- Column Grant
-GRANT SELECT ON Orders.Orders TO Marketing_Monica;
-GRANT SELECT ON Orders.OrderDetails TO Marketing_Monica;
-DENY SELECT ON Customers.Addresses TO Marketing_Monica;
-DENY SELECT ON SCHEMA::Inventory TO Marketing_Monica;
-GRANT SELECT (ProductID, ProductName, Category) ON Products.Catalog TO Marketing_Monica;
+GRANT SELECT, INSERT, UPDATE, DELETE ON Marketing.Campaigns TO MarketingTeam;
+GRANT SELECT (CustomerID, Name, Email) ON Customers.Info TO MarketingTeam; -- Column Grant
+GRANT SELECT ON Orders.Orders TO MarketingTeam;
+GRANT SELECT ON Orders.OrderDetails TO MarketingTeam;
+DENY SELECT ON Customers.Addresses TO MarketingTeam;
+DENY SELECT ON SCHEMA::Inventory TO MarketingTeam;
+GRANT SELECT (ProductID, ProductName, Category) ON Products.Catalog TO MarketingTeam;
 GO
 
 PRINT 'E-Commerce Database Setup and Tasks are successfully completed!';
